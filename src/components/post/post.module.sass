@@ -9,8 +9,10 @@
 
 
 .favContainer
-  padding: 2.11rem 1.37rem
-  width: 4.25rem
+  display: flex
+  align-items: center
+  justify-content: center
+  min-width: $spacing-m * 4.25
   background: rgba(96, 96, 96, 0.06)
   > i
     color: red
@@ -20,7 +22,7 @@
   display: flex
   flex-direction: column
   justify-content: center
-  padding: 1.563rem 1.265rem
+  padding: $spacing-m * 1.563 $spacing-m * 1.265
 
 .timeLabel
   font-size: $font-size-small
@@ -28,3 +30,4 @@
 
 .message
   font-size: $font-size-normal
+  font-family: 'Roboto', sans-serif
