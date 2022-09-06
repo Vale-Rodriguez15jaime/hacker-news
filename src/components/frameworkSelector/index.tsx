@@ -1,7 +1,7 @@
 import Select from 'react-select'
 import Image from 'next/image'
 
-import { optionsSelector } from '../listPosts/utils'
+import { optionsSelector } from '../newsWrapper/utils'
 import styles from './frameworkSelector.module.sass'
 
 const Option = (props: any) => {
