@@ -1,20 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 
 import styles from './newsWrapper.module.sass'
 
-import { optionsInterface, frameworkSelectedInterface } from './interfaces'
-import { options } from './utils'
-import FrameworkSelector from '../frameworkSelector'
-import angular from '../../assets/angular.png'
+import { optionsInterface, frameworkSelectedInterface, newsInterface } from './interfaces'
 
-const NewsWrapper = () => {
+import {options, optionsSelector} from './utils'
+import FrameworkSelector from '../frameworkSelector'
+import { getList } from '../../actions/list'
+
+const NewsWrapper = ({ get, list }: newsInterface) => {
   const [tabSelected, setTabSelected] = useState<number>(0)
 
-  const [frameworkSelected, setFrameworkSelected] = useState({
-    value: 'angular',
-    label: 'Angular',
-    flag: angular
-  })
+  const [frameworkSelected, setFrameworkSelected] = useState(optionsSelector[0])
+
+  useEffect(() => {
+    getList()
+  }, [frameworkSelected])
+
+  const getList = () => {
+    get([
+      { key: 'query', value: frameworkSelected.value },
+      { key: 'page', value: 0 }
+    ])
+  }
 
   const handleChange = (newValue: frameworkSelectedInterface) => {
     setFrameworkSelected(newValue)
@@ -44,4 +53,14 @@ const NewsWrapper = () => {
   )
 }
 
-export default NewsWrapper
+const mapStateToProps = (state: any) => {
+  return {
+    list: state.list
+  }
+}
+
+const mapDispatchToProps = {
+  get: getList
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewsWrapper)
