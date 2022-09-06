@@ -16,18 +16,18 @@ export default function (state: initialStateTypes = initialState, action: AnyAct
     case listTypes.GET:
       return {
         ...state,
-        loading: false
+        isLoading: true
       }
     case listTypes.GET_SUCCESS:
       return {
         ...state,
-        loading: true,
-       ...action.payload
+        isLoading: false,
+        ...action.payload
       }
     case listTypes.GET_ERROR:
       return {
         ...state,
-        loading: false
+        isLoading: false
       }
     default:
       return state
