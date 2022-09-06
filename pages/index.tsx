@@ -1,12 +1,12 @@
 import type { NextPage } from 'next'
 
 import Layout from '../src/components/layout/index'
-import ListPosts from "../src/components/listPosts"
+import NewsWrapper from "../src/components/newsWrapper"
 
 const Home: NextPage = () => {
   return (
     <Layout title='Home'>
-      <ListPosts />
+      <NewsWrapper />
     </Layout>
   )
 }
