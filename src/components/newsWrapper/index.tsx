@@ -8,6 +8,7 @@ import { optionsInterface, frameworkSelectedInterface, newsInterface } from './i
 import {options, optionsSelector} from './utils'
 import FrameworkSelector from '../frameworkSelector'
 import { getList } from '../../actions/list'
+import List from "../list";
 
 const NewsWrapper = ({ get, list }: newsInterface) => {
   const [tabSelected, setTabSelected] = useState<number>(0)
@@ -47,6 +48,8 @@ const NewsWrapper = ({ get, list }: newsInterface) => {
       {tabSelected === 0 && (
         <div>
           <FrameworkSelector onChange={handleChange} value={frameworkSelected} />
+          {list.isLoading && <div> LOADING .... </div>}
+          {!list.isLoading && list.hits.length > 0 && <List state={list} />}
         </div>
       )}
     </div>
