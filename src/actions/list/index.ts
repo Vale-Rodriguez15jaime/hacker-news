@@ -16,7 +16,7 @@ export const getList = (filters: filtersType[]) => {
             const url = buildFilters(filters)
             const response = await axios.get(`${BASE_URL}${url}`);
             dispatch({
-                payload: { ...response },
+                payload: { ...response.data },
                 type: listTypes.GET_SUCCESS
             })
         } catch (error) {
