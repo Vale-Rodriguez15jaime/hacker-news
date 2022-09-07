@@ -20,5 +20,6 @@ export interface frameworkSelectedInterface {
 
 export interface newsInterface {
   get: Function
+  getListFavs: Function
   list: initialStateTypes
 }
