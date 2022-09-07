@@ -5,29 +5,42 @@ import styles from './newsWrapper.module.sass'
 
 import { optionsInterface, frameworkSelectedInterface, newsInterface } from './interfaces'
 
-import {options, optionsSelector} from './utils'
+import { options, optionsSelector } from './utils'
 import FrameworkSelector from '../frameworkSelector'
 import { getList } from '../../actions/list'
-import List from "../list";
+import List from '../list'
+import useLocalStorage from '../../hooks/useLocalStorage'
 
 const NewsWrapper = ({ get, list }: newsInterface) => {
   const [tabSelected, setTabSelected] = useState<number>(0)
+  const [frameworkStorageSelected, setFrameworkStorageSelected] = useLocalStorage<string>(
+    'framework',
+    'angular'
+  )
 
-  const [frameworkSelected, setFrameworkSelected] = useState(optionsSelector[0])
+  const [frameworkSelected, setFrameworkSelected] = useState({ value: '' })
 
   useEffect(() => {
     getList()
   }, [frameworkSelected])
 
+  useEffect(() => {
+    const findSelected = optionsSelector.find(i => i.value === frameworkStorageSelected)
+    if (findSelected) setFrameworkSelected(findSelected)
+  }, [])
+
   const getList = () => {
-    get([
-      { key: 'query', value: frameworkSelected.value },
-      { key: 'page', value: 0 }
-    ])
+    if (frameworkSelected.value !== '') {
+      get([
+        { key: 'query', value: frameworkSelected.value },
+        { key: 'page', value: 0 }
+      ])
+    }
   }
 
   const handleChange = (newValue: frameworkSelectedInterface) => {
     setFrameworkSelected(newValue)
+    setFrameworkStorageSelected(newValue.value)
   }
   return (
     <div className={styles.wrapper}>
