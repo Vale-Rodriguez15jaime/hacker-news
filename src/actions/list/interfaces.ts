@@ -6,6 +6,8 @@ export interface filtersType {
 export interface itemNew {
     created_at: string,
     story_id: number,
+    created_at_i: number,
+    objectID: string,
     story_title: string,
     story_url: string,
     author: string,
@@ -15,6 +17,7 @@ export interface itemNew {
 export interface initialStateTypes {
     isLoading: boolean,
     hits: itemNew[],
+    favsList: itemNew[],
     hitsPerPage: number,
     nbPages: number,
     page: number,
