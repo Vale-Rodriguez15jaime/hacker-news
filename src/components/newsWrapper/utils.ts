@@ -23,3 +23,7 @@ export const optionsSelector = [
         value: 'vuejs', label: 'Vuejs', flag: vue
     }
 ]
+
+export const searchId = (id: number, list: any[]) => {
+    if (list) return list.find((i: string) => i === id.toString())
+}
