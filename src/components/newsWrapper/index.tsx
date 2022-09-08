@@ -5,20 +5,22 @@ import styles from './newsWrapper.module.sass'
 
 import { optionsInterface, frameworkSelectedInterface, newsInterface } from './interfaces'
 
-import { options, optionsSelector } from './utils'
+import { options, optionsSelector, searchId } from './utils'
 import FrameworkSelector from '../frameworkSelector'
-import { getList } from '../../actions/list'
+import { getList, getListFavs as getListFavAction } from '../../actions/list'
 import List from '../list'
 import useLocalStorage from '../../hooks/useLocalStorage'
+import ListFavs from '../listFavs'
 
-const NewsWrapper = ({ get, list }: newsInterface) => {
+const NewsWrapper = ({ get, list, getListFavs }: newsInterface) => {
   const [tabSelected, setTabSelected] = useState<number>(0)
+  const [frameworkSelected, setFrameworkSelected] = useState({ value: '' })
+
+  const [favList, setFavList] = useLocalStorage<string[]>('favs', [])
   const [frameworkStorageSelected, setFrameworkStorageSelected] = useLocalStorage<string>(
     'framework',
     'angular'
   )
-
-  const [frameworkSelected, setFrameworkSelected] = useState({ value: '' })
 
   useEffect(() => {
     getList()
@@ -36,6 +38,17 @@ const NewsWrapper = ({ get, list }: newsInterface) => {
         { key: 'page', value: 0 }
       ])
     }
+  }
+
+  const handleUpdateFavs = (id: number) => {
+    const isFoundId = searchId(id, favList)
+    let newCurrent
+    if (isFoundId) {
+      newCurrent = favList.filter((i: string) => i !== id.toString())
+    } else {
+      newCurrent = [...favList, id.toString()]
+    }
+    setFavList(newCurrent)
   }
 
   const handleChange = (newValue: frameworkSelectedInterface) => {
@@ -58,12 +71,24 @@ const NewsWrapper = ({ get, list }: newsInterface) => {
           )
         })}
       </div>
+      {list.isLoading && <div> LOADING .... </div>}
       {tabSelected === 0 && (
         <div>
           <FrameworkSelector onChange={handleChange} value={frameworkSelected} />
-          {list.isLoading && <div> LOADING .... </div>}
-          {!list.isLoading && list.hits.length > 0 && <List state={list} />}
+          {!list.isLoading && list.hits.length > 0 && (
+            <List results={list.hits} favList={favList} setFavList={handleUpdateFavs} />
+          )}
+          {!list.isLoading && list.hits.length === 0 && <div>Empty list</div>}
         </div>
+      )}
+      {tabSelected === 1 && (
+        <ListFavs
+          getList={getListFavs}
+          favsListData={list.favsList}
+          favList={favList}
+          isLoading={list.isLoading}
+          setFavList={handleUpdateFavs}
+        />
       )}
     </div>
   )
@@ -76,7 +101,8 @@ const mapStateToProps = (state: any) => {
 }
 
 const mapDispatchToProps = {
-  get: getList
+  get: getList,
+  getListFavs: getListFavAction
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewsWrapper)
