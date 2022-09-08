@@ -1,3 +1,5 @@
+import { MouseEvent } from 'react'
+
 import styles from './post.module.sass'
 import { itemNew } from '../../actions/list/interfaces'
 import moment from 'moment'
@@ -14,15 +16,31 @@ const Post = ({ item, favList, handleFav }: postInterface) => {
   const iconFav = useMemo(() => {
     return (
       <i
-        onClick={() => handleFav(item.created_at_i)}
+        id="iconFav"
+        onClick={event => {
+          const target = event.target as HTMLElement
+          if (target.id === 'iconFav') {
+            handleFav(item.created_at_i)
+          }
+          event.stopPropagation()
+        }}
         className={
           searchId(item.created_at_i, favList) ? 'app-icon-heart' : 'app-icon-heart-outline'
         }
       />
     )
   }, [favList])
+
+  const handleOpen = (event: MouseEvent<HTMLElement>) => {
+    const target = event.target as HTMLElement
+    if (target.id !== 'iconFav') {
+      window && window.open(item.story_url)
+    }
+    event.stopPropagation()
+  }
+
   return (
-    <div className={styles.wrapper}>
+    <div onClick={handleOpen} className={styles.wrapper}>
       <div className={styles.dataContainer}>
         <div className={styles.timeLabel}>
           {' '}
