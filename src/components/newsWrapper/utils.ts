@@ -17,7 +17,7 @@ export const optionsSelector = [
         value: 'angular', label: 'Angular', flag: angular
     },
     {
-        value: 'reacts', label: 'Reacts', flag: reactjs
+        value: 'reacts', label: 'Reactjs', flag: reactjs
     },
     {
         value: 'vuejs', label: 'Vuejs', flag: vue
