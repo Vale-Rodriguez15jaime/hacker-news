@@ -16,6 +16,17 @@ const initialState = {
 export default function (state: initialStateTypes = initialState, action: AnyAction) {
   switch (action.type) {
     case listTypes.GET:
+      if (state.query !== action.payload.query.value) {
+        return {
+          ...state,
+          isLoading: true,
+          hits: []
+        }
+      }
+      return {
+        ...state,
+        isLoading: true
+      }
     case listTypes.GET_LIST_FAV:
       return {
         ...state,

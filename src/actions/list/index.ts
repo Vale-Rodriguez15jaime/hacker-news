@@ -10,7 +10,8 @@ const BASE_URL = ' https://hn.algolia.com/api/v1/search_by_date'
 export const getList = (filters: filtersType[]) => {
   return async (dispatch: Dispatch) => {
     dispatch({
-      type: listTypes.GET
+      type: listTypes.GET,
+      payload: { query: filters.find(i => i.key === 'query') || {} }
     })
     try {
       const url = buildFilters(filters)
