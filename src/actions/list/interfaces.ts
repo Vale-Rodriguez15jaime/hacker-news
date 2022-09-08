@@ -20,6 +20,7 @@ export interface initialStateTypes {
     favsList: itemNew[],
     hitsPerPage: number,
     nbPages: number,
+    nbHits: number,
     page: number,
     query: string
 }
