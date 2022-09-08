@@ -3,6 +3,7 @@ import styles from './list.module.sass'
 
 import Post from '../post'
 import { itemNew } from '../../actions/list/interfaces'
+import LoadingSpinner from '../loader'
 
 interface listInterface {
   results: itemNew[]
@@ -36,12 +37,19 @@ const List = ({
     }
   }
   return (
-    <div ref={content} onScroll={handleScroll} className={styles.wrapper}>
-      {results.map((item: itemNew, index: number) => {
-        if (item.story_title && item.story_url && item.author && item.created_at) {
-          return <Post key={index} item={item} favList={favList} handleFav={setFavList} />
-        }
-      })}
+    <div ref={content} onScroll={handleScroll} className={styles.container}>
+      {results.length > 0 && (
+        <div className={styles.wrapper}>
+          {results.map((item: itemNew, index: number) => {
+            if (item.story_title && item.story_url && item.author && item.created_at) {
+              return (
+                <Post key={index} item={item} favList={favList} handleFav={setFavList} />
+              )
+            }
+          })}
+        </div>
+      )}
+      {isLoading && results?.length > 0 && <LoadingSpinner />}
     </div>
   )
 }
