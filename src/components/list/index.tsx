@@ -9,9 +9,9 @@ interface listInterface {
   results: itemNew[]
   favList: string[]
   setFavList: Function
-  isLoading: boolean
-  onScrollEnd: Function
-  pagination: any
+  isLoading?: boolean
+  onScrollEnd?: Function
+  pagination?: any
 }
 
 const List = ({
