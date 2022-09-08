@@ -15,6 +15,7 @@ Use
 npm run
 ```
 - `dev`: Use for run project in development mode, open [http://localhost:3000](http://localhost:3000).
+- `test`: Use for run test.
 
 ## Technologies used
 
