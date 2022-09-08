@@ -30,7 +30,7 @@ const ListFavs = ({
       {!isLoading && favsListData.length > 0 && (
         <List results={favsListData} favList={favList} setFavList={setFavList} />
       )}
-      {!isLoading && favsListData.length === 0 && <div>Empty list</div>}
+      {!isLoading && favsListData.length === 0 && <div>You have no selected favorites</div>}
     </>
   )
 }
