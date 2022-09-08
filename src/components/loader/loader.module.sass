@@ -1,0 +1,25 @@
+@import 'styles/vars'
+
+@keyframes spinner
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
+
+
+.loading
+  width: 70px
+  height: 70px
+  border: 8px solid #f3f3f3
+  border-top: 8px solid $blue
+  border-radius: 50%
+  animation: spinner 1s linear infinite
+
+.spinnerContainer
+  margin-top: $spacing-m
+  display: grid
+  justify-content: center
+  align-items: center
+  padding: $spacing-m * 3
+  background: #FBFDFD
+  border-radius: 7px

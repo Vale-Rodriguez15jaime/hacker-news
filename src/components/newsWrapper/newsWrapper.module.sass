@@ -1,0 +1,32 @@
+@import 'styles/vars'
+
+.wrapper
+  padding: 0 $spacing-m * 8
+  @media only screen and (max-width: 913px)
+    padding: 0 $spacing-m
+
+.tabsWrapper
+  display: flex
+  align-items: center
+  justify-content: center
+  margin-bottom: $spacing-m * 3.938
+  div:first-child
+    border-top-left-radius: 2px
+    border-bottom-left-radius: 2px
+  div:last-child
+    border-top-right-radius: 2px
+    border-bottom-right-radius: 2px
+  @media only screen and (max-width: 913px)
+    margin-bottom: $spacing-m * 2
+.tab
+  border: 1px solid $gray-light
+  width: $spacing-m * 6.125
+  padding: $spacing-xxs
+  display: flex
+  justify-content: center
+  color: $gray
+  cursor: pointer
+
+.selected
+  color: $blue
+  border-color: $blue
