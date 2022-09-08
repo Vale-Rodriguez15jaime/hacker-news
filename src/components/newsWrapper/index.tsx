@@ -11,6 +11,7 @@ import { getList, getListFavs as getListFavAction } from '../../actions/list'
 import List from '../list'
 import useLocalStorage from '../../hooks/useLocalStorage'
 import ListFavs from '../listFavs'
+import LoadingSpinner from '../loader'
 
 const NewsWrapper = ({ get, list, getListFavs }: newsInterface) => {
   const [tabSelected, setTabSelected] = useState<number>(0)
@@ -35,7 +36,8 @@ const NewsWrapper = ({ get, list, getListFavs }: newsInterface) => {
     if (frameworkSelected.value !== '') {
       get([
         { key: 'query', value: frameworkSelected.value },
-        { key: 'page', value: 0 }
+        { key: 'page', value: 0 },
+        { key: 'hitsPerPage', value: 100 }
       ])
     }
   }
@@ -59,7 +61,8 @@ const NewsWrapper = ({ get, list, getListFavs }: newsInterface) => {
   const handleScroll = () => {
     get([
       { key: 'query', value: frameworkSelected.value },
-      { key: 'page', value: list.page + 1 }
+      { key: 'page', value: list.page + 1 },
+      { key: 'hitsPerPage', value: 100 }
     ])
   }
 
@@ -79,35 +82,36 @@ const NewsWrapper = ({ get, list, getListFavs }: newsInterface) => {
           )
         })}
       </div>
-      {list.isLoading && <div> LOADING .... </div>}
       {tabSelected === 0 && (
         <div>
           <FrameworkSelector onChange={handleChange} value={frameworkSelected} />
-          {!list.isLoading && list.hits.length > 0 && (
-            <List
-              results={list.hits}
-              favList={favList}
-              setFavList={handleUpdateFavs}
-              pagination={{
-                pages: list.nbPages,
-                currentPage: list.page,
-                totalItems: list.nbHits
-              }}
-              isLoading={list.isLoading}
-              onScrollEnd={handleScroll}
-            />
-          )}
+          <List
+            results={list.hits}
+            favList={favList}
+            setFavList={handleUpdateFavs}
+            pagination={{
+              pages: list.nbPages,
+              currentPage: list.page,
+              totalItems: list.nbHits
+            }}
+            isLoading={list.isLoading}
+            onScrollEnd={handleScroll}
+          />
+          {list.isLoading && list.hits.length === 0 && <LoadingSpinner />}
           {!list.isLoading && list.hits.length === 0 && <div>Empty list</div>}
         </div>
       )}
       {tabSelected === 1 && (
-        <ListFavs
-          getList={getListFavs}
-          favsListData={list.favsList}
-          favList={favList}
-          isLoading={list.isLoading}
-          setFavList={handleUpdateFavs}
-        />
+        <>
+          {list.isLoading && <LoadingSpinner />}
+          <ListFavs
+            getList={getListFavs}
+            favsListData={list.favsList}
+            favList={favList}
+            isLoading={list.isLoading}
+            setFavList={handleUpdateFavs}
+          />
+        </>
       )}
     </div>
   )
